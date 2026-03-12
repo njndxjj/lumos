@@ -1750,19 +1750,6 @@
         // 定时刷新：每 30 分钟自动刷新一次
         setInterval(() => {
             console.log('[自动刷新] 开始刷新新闻数据和分析模块...');
-            // 先清空分析模块，让用户看到加载状态
-            const aiContent = document.getElementById('ai-content');
-            const wordCloudContent = document.getElementById('word-cloud-content');
-            const interestContent = document.getElementById('interest-content');
-            const recommendContent = document.getElementById('recommend-content');
-            const socialContent = document.getElementById('social-content');
-
-            if (aiContent) aiContent.innerHTML = '<div class="ai-loading">🔄 数据刷新中...</div>';
-            if (wordCloudContent) wordCloudContent.innerHTML = '<div style="text-align:center;color:#64748b;">🔄 刷新中...</div>';
-            if (interestContent) interestContent.innerHTML = '<div style="text-align:center;color:#64748b;">🔄 刷新中...</div>';
-            if (recommendContent) recommendContent.innerHTML = '<div style="text-align:center;color:#64748b;">🔄 刷新中...</div>';
-            if (socialContent) socialContent.innerHTML = '<div style="text-align:center;color:#64748b;">🔄 刷新中...</div>';
-
             loadNews();
         }, AUTO_REFRESH_INTERVAL);
     </script>
