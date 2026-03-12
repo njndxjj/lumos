@@ -830,17 +830,26 @@ def init_db_with_user_interests():
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_user_interests ON user_interests(user_id, weight DESC)')
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_user_click ON user_click_log(user_id, clicked_at DESC)')
 
-    # 初始化预设兴趣分类到数据库（如果数据库为空）
+    # 初始化预设兴趣分类到数据库（如果 default 用户没有兴趣标签）
     cursor.execute('SELECT COUNT(*) FROM user_interests WHERE user_id = ?', ('default',))
     if cursor.fetchone()[0] == 0:
-        print("初始化预设兴趣分类到数据库...")
+        print("初始化预设兴趣分类到数据库 (default 用户)...")
+        # 将所有预设分类的关键词添加到 default 用户
+        for category, keywords in PRESET_INTEREST_CATEGORIES.items():
+            for keyword in keywords:
+                cursor.execute('''
+                    INSERT OR IGNORE INTO user_interests (user_id, keyword, weight)
+                    VALUES (?, ?, ?)
+                ''', ('default', keyword, 1.0))
+        print(f"已加载 {len(PRESET_INTEREST_CATEGORIES)} 个预设分类，共{sum(len(kws) for kws in PRESET_INTEREST_CATEGORIES.values())}个关键词到 default 用户")
+
+        # 同时保留 preset_* 用户用于前端展示分类结构
         for category, keywords in PRESET_INTEREST_CATEGORIES.items():
             for keyword in keywords:
                 cursor.execute('''
                     INSERT OR IGNORE INTO user_interests (user_id, keyword, weight)
                     VALUES (?, ?, ?)
                 ''', ('preset_' + category, keyword, 1.0))
-        print(f"已加载 {len(PRESET_INTEREST_CATEGORIES)} 个预设分类，共{sum(len(kws) for kws in PRESET_INTEREST_CATEGORIES.values())}个关键词")
 
     conn.commit()
     conn.close()

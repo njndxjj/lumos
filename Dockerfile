@@ -2,7 +2,7 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# 安装系统依赖（包括浏览器依赖）
+# 安装系统依赖（包括浏览器依赖和 cron）
 RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
@@ -19,6 +19,8 @@ RUN apt-get update && apt-get install -y \
     libxfixes3 \
     libxrandr2 \
     chromium \
+    cron \
+    supervisor \
     && rm -rf /var/lib/apt/lists/*
 
 # 设置 Playwright 浏览器路径
@@ -32,11 +34,17 @@ RUN pip install --no-cache-dir -r requirements.txt -i https://pypi.tuna.tsinghua
 COPY monitor_app.py .
 COPY database.py .
 COPY feishu_push.py .
+COPY run_crawlers.py .
+COPY crawlers/ crawlers/
 COPY templates/ templates/
 COPY static/ static/
+COPY config/ config/
 
-# 创建数据目录
-RUN mkdir -p /app/data
+# 复制 supervisor 配置文件
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# 创建数据目录和日志目录
+RUN mkdir -p /app/data /var/log/supervisor
 
 # 暴露端口
 EXPOSE 5000
@@ -45,5 +53,5 @@ EXPOSE 5000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
     CMD curl -f http://localhost:5000/api/news || exit 1
 
-# 运行应用
-CMD ["python", "monitor_app.py"]
+# 使用 supervisord 同时管理 cron 和 Flask
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

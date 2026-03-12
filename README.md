@@ -181,6 +181,32 @@ pkill -f monitor_app.py
 nohup python monitor_app.py > app.log 2>&1 &
 ```
 
+### 数据库维护脚本
+
+项目提供了多个数据库维护脚本，用于数据清理和修复：
+
+```bash
+# 1. 清理重复数据
+python3 clean_duplicates.py
+
+# 2. 修复兴趣标签系统（将预设标签迁移到 default 用户）
+python3 fix_interests.py
+
+# 3. 修复新闻 priority 字段
+python3 fix_priority.py
+
+# 4. 查看数据库统计信息
+python3 clean_duplicates.py --stats
+
+# 5. 查看兴趣标签统计
+python3 fix_interests.py --stats
+```
+
+**使用场景：**
+- `clean_duplicates.py` - 定期执行，清理因爬虫重复抓取产生的冗余数据
+- `fix_interests.py` - 初次部署或重置兴趣标签时使用
+- `fix_priority.py` - 修复爬虫数据优先级分类错误
+
 ---
 
 ## 📊 性能要求
