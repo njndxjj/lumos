@@ -141,5 +141,5 @@ admin:
       password: "admin123"
       token: "admin-token-change-me-please"
       name: "系统管理员"
-      captcha_enabled: true  # 是否启用验证码（超管专用）
+      captcha_enabled: false  # 是否启用验证码（超管专用）
       captcha_code: "8888"   # 验证码（4 位数字，可自定义）

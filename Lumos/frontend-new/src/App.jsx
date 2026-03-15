@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { apiRequest } from './services/api.js';
 import { useToast } from './hooks/useToast.js';
 import { trackPageView } from './utils/tracking.js';
-import UserBehaviorDashboard from './components/UserBehaviorDashboard.js';
 import './App.css';
 
 // 预设兴趣标签（来自数据库设计）
@@ -35,7 +34,6 @@ function App() {
   const [loadingNews, setLoadingNews] = useState(false);
   const [showSubscribe, setShowSubscribe] = useState(false);
   const [hasInitialized, setHasInitialized] = useState(false);
-  const [showBehaviorDashboard, setShowBehaviorDashboard] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false); // 防止重复点击登录按钮
 
   // Toast 通知
@@ -504,9 +502,6 @@ function App() {
             <button onClick={() => setShowSubscribe(!showSubscribe)} className="btn btn-secondary">
               {showSubscribe ? '收起订阅' : '管理订阅'}
             </button>
-            <button onClick={() => setShowBehaviorDashboard(!showBehaviorDashboard)} className="btn btn-secondary">
-              📊 行为分析
-            </button>
             <button onClick={handleLogout} className="btn btn-outline">
               登出
             </button>
@@ -515,13 +510,6 @@ function App() {
       </header>
 
       <main className="App-main">
-        {/* 用户行为分析看板 */}
-        {showBehaviorDashboard && (
-          <section className="section">
-            <UserBehaviorDashboard />
-          </section>
-        )}
-
         {/* Hero Section - 首屏设计 */}
         <section className="hero-section">
           {/* 📋 核心摘要卡片 - 显示在 Hero Section 左侧 */}
