@@ -1,252 +1,314 @@
-# 资讯监控系统
+# Lumos - 商家洞察系统
 
-一个基于 Flask 的智能化资讯监控系统，支持多平台新闻采集、AI 智能分析、关键词云图、兴趣匹配推荐等功能。
+<div align="center">
 
-## ✨ 功能特性
+**基于 AI 个性化推荐的中小企业商业机会发现引擎**
 
-- 📰 **多平台采集**：支持 39+ 个科技媒体平台自动抓取
-- 🔥 **热度分析**：智能计算新闻热度分数，识别热门话题
-- ☁️ **关键词云图**：可视化展示核心关键词分布
-- 🎯 **兴趣匹配**：根据用户兴趣智能推荐相关新闻
-- 🤖 **AI 推荐**：基于通义千问模型的智能新闻摘要和推荐
-- 📱 **社交分析**：追踪社交平台传播趋势
-- 🚀 **飞书推送**：支持 webhook 推送高热新闻到飞书群
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.9+-green.svg)](https://python.org)
+[![React](https://img.shields.io/badge/react-18+-blue.svg)](https://react.dev)
+[![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](https://docker.com)
+
+</div>
 
 ---
 
-## 🚀 快速部署
+## 💡 项目愿景
 
-### 方案一：Docker 部署（推荐）
+**Lumos**（拉丁语意为"光"）致力于成为中小企业主的商业洞察之光，帮助他们在复杂多变的商业环境中捕捉机会、洞察趋势、做出明智决策。
 
-```bash
-# 1. 克隆项目
-git clone <your-repo-url> news-monitor
-cd news-monitor
+> 每个中小企业老板都值得拥有一个专属的商业情报官 —— Lumos 就是这个角色。
 
-# 2. 配置环境变量
-cp .env.example .env
-vi .env  # 填入你的 DASHSCOPE_API_KEY
+---
 
-# 3. 一键启动
-docker-compose up -d --build
+## 🎯 产品定位
 
-# 4. 访问应用
-# 浏览器打开：http://localhost:5000
+### 为谁而做？
+
+- **中小企业主/创始人**：需要敏锐捕捉行业动态和商业机会
+- **创业者**：寻找市场空白和投资机会
+- **业务负责人**：关注竞争对手和市场趋势
+- **投资人**：快速了解行业动态和潜在标的
+
+### 解决什么问题？
+
+| 痛点 | Lumos 方案 |
+|------|-----------|
+| 信息过载，难以筛选 | AI 智能过滤，只推送高价值信息 |
+| 错过重要商机 | 7×24 小时监控，实时预警 |
+| 不了解竞争对手 | 竞品动态追踪，竞争情报分析 |
+| 决策缺乏依据 | 数据驱动的洞察报告 |
+| 时间有限 | 个性化推荐，只看最相关的 |
+
+---
+
+## ✨ 核心特性
+
+### 🔍 商业机会发现
+- **热点捕捉**：实时监控 60+ 数据源，识别行业热点
+- **趋势预测**：基于 AI 分析预测行业发展趋势
+- **机会推荐**：根据你的业务标签智能推荐商机
+
+### 🎯 个性化推荐引擎
+- **兴趣图谱**：记录你的关注点，越用越懂你
+- **智能排序**：基于点击、收藏、分享行为优化推荐
+- **关键词订阅**：关注特定公司、人物、技术方向
+
+### 🧠 AI 智能分析
+- **Qwen 大模型集成**：自动生成新闻摘要和洞察
+- **情感分析**：判断舆情走向（正面/负面/中性）
+- **实体识别**：自动识别公司、人物、产品、投资事件
+
+### 📊 知识图谱可视化
+- **Neo4j 图数据库**：构建商业实体关系网络
+- **关系挖掘**：发现公司投资、竞争、合作关系
+- **可视化探索**：力导向图交互浏览商业关系
+
+### 🔔 实时通知
+- **飞书集成**：高热资讯自动推送到飞书群
+- **邮件订阅**：每日/周精选报告
+- **阈值告警**：重要关键词动态实时提醒
+
+---
+
+## 🏗️ 技术架构
+
 ```
-
-**一键部署脚本（Ubuntu/Debian）：**
-```bash
-sudo ./deploy.sh
+┌─────────────────────────────────────────────────────────────┐
+│                      用户界面层                               │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
+│  │ React Web   │ │ Mobile Web  │ │ Admin Dash  │           │
+│  └─────────────┘ └─────────────┘ └─────────────┘           │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                      API 服务层                               │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
+│  │ Flask REST  │ │ JWT Auth    │ │ Rate Limit  │           │
+│  └─────────────┘ └─────────────┘ └─────────────┘           │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                      业务服务层                               │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
+│  │ 推荐引擎    │ │ 知识图谱    │ │ 用户系统    │           │
+│  │ Recommend   │ │ Neo4j Graph │ │ User Mgmt   │           │
+│  └─────────────┘ └─────────────┘ └─────────────┘           │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
+│  │ AI 分析     │ │ 定时调度    │ │ 通知服务    │           │
+│  │ AI Analysis │ │ Scheduler   │ │ Notification│           │
+│  └─────────────┘ └─────────────┘ └─────────────┘           │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                      数据采集层                               │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
+│  │ RSS Parser  │ │ Crawler     │ │ Browser     │           │
+│  │             │ │ Cluster     │ │ Automation  │           │
+│  └─────────────┘ └─────────────┘ └─────────────┘           │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                      数据存储层                               │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐           │
+│  │ SQLite      │ │ Neo4j       │ │ Redis       │           │
+│  │ (业务数据)  │ │ (知识图谱)  │ │ (缓存)      │           │
+│  └─────────────┘ └─────────────┘ └─────────────┘           │
+└─────────────────────────────────────────────────────────────┘
 ```
-
-### 方案二：本地运行
-
-```bash
-# 1. 安装依赖
-pip install -r requirements.txt
-
-# 2. 安装 Playwright 浏览器
-playwright install chromium
-playwright install-deps chromium
-
-# 3. 配置环境变量
-cp .env.example .env
-vi .env
-
-# 4. 启动服务
-python monitor_app.py
-```
-
-### 方案三：生产环境部署
-
-详细部署文档请查看：[DEPLOY.md](DEPLOY.md)
-
-包括：
-- Docker 生产环境配置
-- 云服务器部署（Ubuntu/CentOS）
-- Nginx 反向代理配置
-- HTTPS 证书配置
-- systemd 服务管理
-- PaaS 平台部署
 
 ---
 
 ## 📁 项目结构
 
 ```
-news-monitor/
-├── monitor_app.py          # 主应用（Flask 后端）
-├── database.py             # 数据库管理
-├── feishu_push.py          # 飞书推送模块
-├── templates/
-│   └── index.html          # 前端页面
-├── static/                 # 静态资源
-├── data/                   # 数据存储（SQLite + 缓存）
-├── config/
-│   ├── config.yaml         # 平台配置
-│   └── rss_mapping.yaml    # RSS 源映射
-├── crawlers/               # 爬虫模块
-├── Dockerfile              # Docker 镜像构建
-├── docker-compose.yml      # Docker Compose 配置
-├── .env.example            # 环境变量示例
-├── deploy.sh               # 一键部署脚本
-└── DEPLOY.md               # 详细部署文档
+Lumos/
+├── backend/                          # Flask 后端服务
+│   ├── monitor_app.py                # 主应用入口
+│   ├── recommendation_service.py     # 推荐引擎
+│   ├── knowledge_graph.py            # Neo4j 图谱服务
+│   ├── qwen_integration.py           # Qwen 大模型集成
+│   └── ...
+│
+├── frontend-new/                     # React 前端应用
+│   ├── src/
+│   │   ├── App.jsx                   # 根组件
+│   │   ├── components/               # UI 组件
+│   │   │   ├── HotNews.js            # 热门资讯
+│   │   │   ├── AIAnalysis.js         # AI 分析面板
+│   │   │   ├── Recommendation.js     # 个性化推荐
+│   │   │   ├── KnowledgeGraph.jsx    # 知识图谱
+│   │   │   └── UserInterests.js      # 兴趣管理
+│   │   └── services/api.js           # API 服务
+│   └── ...
+│
+├── crawlers/                         # 爬虫集群
+│   ├── base.py                       # 爬虫基类
+│   ├── baidu.py                      # 百度热搜
+│   ├── weibo.py                      # 微博
+│   ├── kr36.py                       # 36 氪
+│   └── ...
+│
+├── config/                           # 配置文件
+│   ├── config.yaml                   # 60+ 数据源配置
+│   └── rss_mapping.yaml              # RSS 地址映射
+│
+├── data/                             # 数据目录
+│   ├── database.sqlite3              # SQLite 主数据库
+│   └── neo4j/                        # Neo4j 数据
+│
+└── docker-compose.yml                # Docker 编排
 ```
 
 ---
 
-## ⚙️ 配置说明
+## 🚀 快速开始
+
+### 方式一：Docker 部署（推荐）
+
+```bash
+# 1. 克隆项目
+git clone https://github.com/njndxjj/lumos.git
+cd lumos
+
+# 2. 配置环境变量
+cp .env.example .env
+# 编辑 .env 文件，填入 DASHSCOPE_API_KEY
+
+# 3. 启动所有服务
+docker-compose up -d
+
+# 4. 访问应用
+# 前端：http://localhost:3000
+# 后端 API: http://localhost:5100
+```
+
+### 方式二：本地开发
+
+```bash
+# 1. 安装 Python 依赖
+pip install -r backend/requirements.txt
+
+# 2. 安装前端依赖
+cd frontend-new && npm install
+
+# 3. 启动后端服务
+cd backend && flask run --port 5100
+
+# 4. 启动前端开发服务器
+cd ../frontend-new && npm run dev
+```
+
+详细部署指南请查看 [`Lumos/QUICKSTART.md`](Lumos/QUICKSTART.md)
+
+---
+
+## 📊 数据源覆盖
+
+### 财经商业（11 个）
+华尔街见闻、财联社、格隆汇、雪球、金十数据、36 氪、虎嗅、投资界、创业邦、铅笔道、清科研究
+
+### 综合新闻（10 个）
+今日头条、百度热搜、澎湃新闻、凤凰网、参考消息、腾讯新闻、新浪财经、网易财经、东方财富、和讯网
+
+### 科技创投（12 个）
+IT 之家、掘金、GitHub Trending、Hacker News、V2EX、ProductHunt、TechCrunch、36Kr、芥末圈、少数派
+
+### 社交舆情（7 个）
+微博、抖音、B 站、知乎、小红书、虎扑、贴吧
+
+**完整数据源列表请查看 [`config/config.yaml`](config/config.yaml)**
+
+---
+
+## 🔌 核心 API
+
+### 资讯相关
+| 端点 | 方法 | 说明 |
+|------|------|------|
+| `/api/news/hot` | GET | 获取热门资讯 |
+| `/api/news/recommend` | GET | 个性化推荐 |
+| `/api/news/analysis` | GET | AI 分析报告 |
+
+### 知识图谱
+| 端点 | 方法 | 说明 |
+|------|------|------|
+| `/api/graph/nodes` | GET | 获取图谱节点 |
+| `/api/graph/relations` | GET | 获取关系网络 |
+| `/api/graph/query` | POST | Cypher 查询 |
+
+### 用户系统
+| 端点 | 方法 | 说明 |
+|------|------|------|
+| `/api/users/register` | POST | 用户注册 |
+| `/api/users/interests` | POST | 更新兴趣标签 |
+| `/api/users/behavior` | POST | 上报用户行为 |
+
+完整 API 文档请查看 [`Lumos/API.md`](Lumos/API.md)
+
+---
+
+## ⚙️ 环境配置
 
 ### 环境变量
 
-| 变量名 | 必填 | 说明 |
-|--------|------|------|
-| `DASHSCOPE_API_KEY` | ✅ | 通义千问 API Key |
-| `FEISHU_WEBHOOK` | ❌ | 飞书推送 Webhook 地址 |
-| `PORT` | ❌ | 服务端口（默认 5000） |
-| `FLASK_ENV` | ❌ | 运行环境（production/development） |
+创建 `.env` 文件并配置：
 
-### 获取 API Key
+```bash
+# 数据库
+DB_PATH=./data/database.sqlite3
+
+# Neo4j 知识图谱
+NEO4J_URI=bolt://localhost:7687
+NEO4J_USER=neo4j
+NEO4J_PASSWORD=your_password
+
+# Qwen 大模型（必填）
+DASHSCOPE_API_KEY=sk-xxxxxxxx
+
+# 管理员 Token
+ADMIN_TOKEN=change-me-please
+```
+
+### 获取 Qwen API Key
 
 1. 访问 [阿里云百炼控制台](https://dashscope.console.aliyun.com/)
-2. 开通通义千问服务
-3. 创建 API Key
-4. 填入 `.env` 文件
+2. 注册/登录阿里云账号
+3. 开通 DashScope 服务
+4. 创建 API Key
+5. 填入 `.env` 文件
 
 ---
 
-## 📖 使用说明
+## 📈 版本规划
 
-### 首页功能
+### v1.0 (当前版本) - MVP
+- ✅ 基础资讯聚合
+- ✅ AI 智能分析
+- ✅ 个性化推荐
+- ✅ 知识图谱可视化
 
-- **热点概览**：展示今日热点新闻 TOP10
-- **关键词云图**：可视化核心关键词（点击可搜索）
-- **兴趣匹配分析**：显示新闻与用户兴趣的匹配度
-- **AI 推荐**：智能生成新闻摘要和推荐
-- **社交分析**：追踪社交平台传播趋势
+### v2.0 (Q2 2026) - 增强版
+- 🚧 商业机会自动发现
+- 🚧 竞品监控系统
+- 🚧 投融资事件追踪
+- 🚧 行业报告生成
 
-### 搜索功能
-
-- 支持关键词搜索
-- 支持情感过滤（全部/正面/中性/负面）
-- 支持自动翻译英文标题
-
-### 自定义规则
-
-- 访问 `/rules` 页面管理推送规则
-- 设置热度阈值
-- 配置关键词过滤
+### v3.0 (Q4 2026) - 企业版
+- 📋 多用户团队协作
+- 📋 自定义监控看板
+- 📋 API 开放平台
+- 📋 SaaS 化部署
 
 ---
 
-## 🔧 技术栈
+## 🤝 参与贡献
 
-- **后端**：Python 3.11 + Flask 3.0
-- **数据库**：SQLite
-- **AI 模型**：通义千问（DashScope）
-- **爬虫**：Playwright + feedparser
-- **前端**：原生 HTML + CSS + JavaScript
-- **部署**：Docker + Docker Compose
-
----
-
-## 🛠️ 运维命令
-
-### Docker 方式
-```bash
-# 查看日志
-docker-compose logs -f
-
-# 重启服务
-docker-compose restart
-
-# 停止服务
-docker-compose down
-
-# 更新部署
-git pull
-docker-compose up -d --build
-
-# 进入容器调试
-docker exec -it news-monitor-app bash
-```
-
-### 本地运行方式
-```bash
-# 查看日志
-tail -f app.log
-
-# 重启服务
-pkill -f monitor_app.py
-nohup python monitor_app.py > app.log 2>&1 &
-```
-
-### 数据库维护脚本
-
-项目提供了多个数据库维护脚本，用于数据清理和修复：
-
-```bash
-# 1. 清理重复数据
-python3 clean_duplicates.py
-
-# 2. 修复兴趣标签系统（将预设标签迁移到 default 用户）
-python3 fix_interests.py
-
-# 3. 修复新闻 priority 字段
-python3 fix_priority.py
-
-# 4. 查看数据库统计信息
-python3 clean_duplicates.py --stats
-
-# 5. 查看兴趣标签统计
-python3 fix_interests.py --stats
-```
-
-**使用场景：**
-- `clean_duplicates.py` - 定期执行，清理因爬虫重复抓取产生的冗余数据
-- `fix_interests.py` - 初次部署或重置兴趣标签时使用
-- `fix_priority.py` - 修复爬虫数据优先级分类错误
-
----
-
-## 📊 性能要求
-
-| 部署方式 | 内存 | CPU | 磁盘 |
-|----------|------|-----|------|
-| Docker | 2GB+ | 2 核 + | 10GB+ |
-| 本地运行 | 4GB+ | 2 核 + | 10GB+ |
-
----
-
-## 🔐 安全建议
-
-1. **不要将 `.env` 文件提交到 Git**
-2. 使用 HTTPS（生产环境必须）
-3. 配置防火墙规则
-4. 定期更新 API Key
-5. 限制访问 IP（可选）
-
----
-
-## 📝 更新日志
-
-### v2.0 - 2024
-- ✨ 新增关键词云图可视化
-- ✨ 新增兴趣匹配分析
-- ✨ 新增 AI 智能推荐
-- 🎨 优化界面布局和样式
-- 🐛 修复已知问题
-
-### v1.0 - 2024
-- 🎉 首次发布
-- 支持 39+ 平台采集
-- 基础热度分析功能
-
----
-
-## 🤝 贡献指南
-
-1. Fork 本项目
+1. Fork 本仓库
 2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
 3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
 4. 推送到分支 (`git push origin feature/AmazingFeature`)
@@ -254,19 +316,25 @@ python3 fix_interests.py --stats
 
 ---
 
-## 📄 许可证
+## 📄 开源协议
 
-本项目采用 MIT 许可证
-
----
-
-## 🙏 致谢
-
-- 感谢使用本项目的每一位用户
-- 感谢阿里云提供的 AI 能力支持
+MIT License - 详见 [LICENSE](LICENSE) 文件
 
 ---
 
-## 📮 联系方式
+## 👥 团队
 
-如有问题或建议，请提 Issue 或联系开发者。
+**Lumos Team** © 2026
+
+- GitHub: [@njndxjj](https://github.com/njndxjj)
+- 项目地址：https://github.com/njndxjj/lumos
+
+---
+
+<div align="center">
+
+**让 Lumos 成为你商业决策的第一道光** 🌟
+
+[阅读文档](Lumos/INDEX.md) · [快速开始](Lumos/QUICKSTART.md) · [API 参考](Lumos/API.md)
+
+</div>
