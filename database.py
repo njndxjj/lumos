@@ -19,8 +19,17 @@ PRESET_INTEREST_CATEGORIES = {
     "供应链": ["供应链", "采购", "供应商", "物流", "仓储", "库存", "配送", "跨境电商物流", "冷链", "原材料", "价格上涨", "缺货", "产能"],
 }
 
-# 数据库文件路径
-DB_PATH = '/Users/bs-00008898/OpenClaw_Data/Lumos/database.sqlite3'
+# 数据库文件路径（支持 Docker 容器和本地开发）
+# 优先使用环境变量，其次使用容器内路径，最后降级到本地路径
+DB_PATH = os.environ.get(
+    'DATABASE_PATH',
+    '/app/data/database.sqlite3'  # Docker 容器内路径
+)
+
+# 如果是在本地开发环境（检测到 macOS 路径），使用本地路径
+if os.path.exists('/Users/bs-00008898'):
+    DB_PATH = '/Users/bs-00008898/OpenClaw_Data/Lumos/database.sqlite3'
+
 DB_DIR = os.path.dirname(DB_PATH)
 
 # 确保数据目录存在
