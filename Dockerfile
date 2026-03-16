@@ -61,7 +61,7 @@ COPY cronjob /etc/cron.d/news-cron
 RUN chmod 0644 /etc/cron.d/news-cron
 
 # 创建数据目录和日志目录
-RUN mkdir -p /app/data /var/log/supervisor
+RUN mkdir -p /app/data /var/log/supervisor /var/log/cron
 
 # 暴露端口
 EXPOSE 5000
