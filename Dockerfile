@@ -47,6 +47,8 @@ COPY crawlers/ crawlers/
 COPY templates/ templates/
 COPY static/ static/
 COPY config/ config/
+# 复制 Lumos 模块（包含 user_module 等）
+COPY Lumos/ Lumos/
 
 # 复制 supervisor 配置文件
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
