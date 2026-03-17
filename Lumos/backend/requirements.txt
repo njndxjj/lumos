@@ -7,3 +7,5 @@ neo4j
 dashscope
 python-dotenv
 pyyaml
+scikit-learn
+celery
