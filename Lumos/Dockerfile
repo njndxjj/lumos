@@ -16,6 +16,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # 复制后端代码
 COPY backend/ /app/backend/
 COPY *.py /app/
+COPY crawlers/ /app/crawlers/
 COPY config/ /app/config/
 COPY templates/ /app/templates/
 
