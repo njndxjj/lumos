@@ -20,7 +20,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 logger = logging.getLogger(__name__)
 
 # 通义千问 API 配置
-DASHSCOPE_API_KEY = os.environ.get('DASHSCOPE_API_KEY', 'sk-1acde23fddbd4a83bd0aa451a6a60a47')
+DASHSCOPE_API_KEY = os.environ.get('DASHSCOPE_API_KEY')
 
 # 飞书 Webhook 配置
 FEISHU_WEBHOOK = os.environ.get('FEISHU_WEBHOOK', '')
