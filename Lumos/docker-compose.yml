@@ -3,18 +3,46 @@ version: '3.8'
 services:
   backend:
     build:
-      context: ./
+      context: .
       dockerfile: Dockerfile
-    ports:
-      - "5100:5100"
+    container_name: lumos-backend
     restart: on-failure
+    environment:
+      - PORT=5000
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./database.sqlite3:/app/database.sqlite3
+      - ./config:/app/config
+      - ./logs:/app/logs
+    networks:
+      - lumos-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   frontend:
-    image: node:16
+    image: node:20-slim
+    container_name: lumos-frontend
     working_dir: /app
     volumes:
-      - ./frontend:/app
-    command: ["npm", "start"]
+      - ./frontend-new:/app
+      - /app/node_modules
+    command: sh -c "npm install && npm run serve"
     ports:
       - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - BACKEND_URL=http://backend:5000
+    depends_on:
+      - backend
+    networks:
+      - lumos-network
     restart: on-failure
+
+networks:
+  lumos-network:
+    driver: bridge

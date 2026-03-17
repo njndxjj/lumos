@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+*.egg-info/
+.eggs/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Database (mounted as volume)
+database.sqlite3
+*.db
+
+# Environment
+.env
+.env.local
+
+# Frontend (handled separately)
+frontend-new/node_modules/
+frontend-new/dist/
+
+# Test files
+test_*.py
+*_test.py
